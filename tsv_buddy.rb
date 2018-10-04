@@ -26,11 +26,23 @@ module TsvBuddy
     key_list = []
     @data[0].each_key { |key| key_list << key }
     key_line = ''
-    key_list.each { |key| key_line.concat(key + "\t") }
+    key_list.each_with_index do |key, index|
+      if index == key_list.size - 1
+        key_line.concat(key)
+      else
+        key_line.concat(key + "\t")
+      end
+    end
     output = ""
     output << key_line << "\n"
     @data.each do |record_this_line|
-      record_this_line.each_value { |value| output << value + "\t" }
+      record_this_line.each_with_index do |(key, value), index|
+        if index == record_this_line.size - 1
+          output << value 
+        else
+          output << value + "\t"
+        end
+      end
       output << "\n"
     end
     output
